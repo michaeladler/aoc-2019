@@ -1,0 +1,9 @@
+[package]
+name = "day01"
+version = "0.1.0"
+authors = ["Michael Adler <therisen06@gmail.com>"]
+edition = "2018"
+
+[[bin]]
+name = "day01"
+path = "src/main.rs"

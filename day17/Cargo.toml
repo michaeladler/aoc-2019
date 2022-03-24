@@ -1,0 +1,15 @@
+[package]
+name = "day17"
+version = "0.1.0"
+authors = ["Michael Adler <therisen06@gmail.com>"]
+edition = "2018"
+
+[[bin]]
+name = "day17"
+path = "src/main.rs"
+
+[dependencies]
+log = {version = "0.4.0", features = ["max_level_debug", "release_max_level_warn"]}
+pretty_env_logger = "0.4"
+aoc2019 = { path = "../share/rust" }
+
