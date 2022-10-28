@@ -10,9 +10,9 @@ const Day = struct {
 };
 
 // my packages
-const pkg_numtheory = Pkg{ .name = "numtheory", .path = .{ .path = "share/zig/numtheory.zig" } };
-const pkg_combination = Pkg{ .name = "combination", .path = .{ .path = "share/zig/combination.zig" } };
-const pkg_intcode = Pkg{ .name = "intcode", .path = .{ .path = "share/zig/intcode.zig" } };
+const pkg_numtheory = Pkg{ .name = "numtheory", .source = .{ .path = "share/zig/numtheory.zig" } };
+const pkg_combination = Pkg{ .name = "combination", .source = .{ .path = "share/zig/combination.zig" } };
+const pkg_intcode = Pkg{ .name = "intcode", .source = .{ .path = "share/zig/intcode.zig" } };
 
 // would be nice if this could be inlined
 const arr_numtheory = [_]Pkg{pkg_numtheory};

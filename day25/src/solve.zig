@@ -15,7 +15,7 @@ const IntcodeProgram = intcode.IntcodeProgram;
 
 const Empty = struct {};
 
-const file_input = @embedFile("../input.txt");
+const file_input = @embedFile("input.txt");
 
 // found manually, by playing the game
 const first_checkpoint =

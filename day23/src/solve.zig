@@ -17,7 +17,7 @@ const Packet = struct { src: Address, dest: Address, x: i64, y: i64 };
 
 const MessageQueue = ArrayList(i64);
 
-const file_content = @embedFile("../input.txt");
+const file_content = @embedFile("input.txt");
 
 pub const NIC = struct {
     const Self = @This();
@@ -90,14 +90,14 @@ pub const NIC = struct {
             };
             self.outgoing.appendAssumeCapacity(packet);
         }
-        log.debug("> NIC {d} sending: {s}", .{ self.address, self.outgoing.items });
+        log.debug("> NIC {d} sending: {any}", .{ self.address, self.outgoing.items });
     }
 
     pub fn enqueue(self: *Self, packet: Packet) !void {
         if (packet.dest != self.address) {
             return error.PacketMismatch;
         }
-        log.debug("> NIC {d}: adding {s} to queue", .{ self.address, packet });
+        log.debug("> NIC {d}: adding {any} to queue", .{ self.address, packet });
         try self.incoming.append(packet.x);
         try self.incoming.append(packet.y);
     }
@@ -175,11 +175,11 @@ pub fn part2(allocator: Allocator) !i64 {
         }
         if (is_idle) {
             idle_counter += 1;
-            log.debug("network is idle for {d} rounds. nat: {s}", .{ idle_counter, nat });
+            log.debug("network is idle for {d} rounds. nat: {?}", .{ idle_counter, nat });
         }
         if (idle_counter > 0) {
             if (nat) |packet| {
-                log.debug("NAT delivering packet to 0: {s}", .{packet});
+                log.debug("NAT delivering packet to 0: {any}", .{packet});
                 var packetCopy = packet;
                 // do the NAT'ing
                 packetCopy.src = 255;

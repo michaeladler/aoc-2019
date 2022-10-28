@@ -32,7 +32,6 @@ const TestCase = struct {
         defer output.deinit();
 
         const status = try program.run(i64, input.items, i64, &output);
-        log.debug("status: {s}, output: {d}", .{ status, output.items });
 
         try testing.expectEqual(IntcodeProgram.Status.terminated, status);
         if (self.expected_code) |expected| {

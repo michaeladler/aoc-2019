@@ -1,6 +1,5 @@
 const std = @import("std");
 const testing = std.testing;
-const log = std.log;
 
 const numtheory = @import("numtheory");
 const mul_mod = numtheory.mul_mod;

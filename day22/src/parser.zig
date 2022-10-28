@@ -9,7 +9,7 @@ const Instruction = @import("instruction.zig").Instruction;
 
 /// caller owns result and must call `deinit`
 pub fn readInput(allocator: Allocator) anyerror!ArrayList(Instruction) {
-    const file_content = @embedFile("../input.txt");
+    const file_content = @embedFile("input.txt");
     return parseInstructions(allocator, file_content);
 }
 

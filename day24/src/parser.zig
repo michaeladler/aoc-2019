@@ -12,7 +12,7 @@ const Grid = @import("grid.zig").Grid;
 const bug: u8 = '#';
 const empty: u8 = '.';
 
-const input = @embedFile("../input.txt");
+const input = @embedFile("input.txt");
 
 pub fn readInput() Grid {
     // the fact that this is possible is just awesome

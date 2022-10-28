@@ -166,11 +166,8 @@ test "invertMany simple" {
     const f = Instruction.manyToPolynomial(instructions[0..], p);
     const g = Instruction.manyToPolynomial(inv_instructions, p);
 
-    log.debug("f: {s}, g: {s}", .{ f, g });
-
     {
         const id = f.composeWith(g, p);
-        log.debug("id: {s}", .{id});
         try testing.expectEqual(@as(i64, 1), id.a);
         try testing.expectEqual(@as(i64, 0), id.b);
     }
@@ -204,11 +201,8 @@ test "invertMany" {
     const f = Instruction.manyToPolynomial(instructions[0..], p);
     const g = Instruction.manyToPolynomial(inv_instructions, p);
 
-    log.debug("f: {s}, g: {s}", .{ f, g });
-
     {
         const id = f.composeWith(g, p);
-        log.debug("id: {s}", .{id});
         try testing.expectEqual(@as(i64, 1), id.a);
         try testing.expectEqual(@as(i64, 0), id.b);
     }
