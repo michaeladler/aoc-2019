@@ -217,7 +217,7 @@ const Machine = struct {
 
             var _indices: [10]u32 = undefined;
 
-            const n = @intCast(u32, item_list.items.len);
+            const n = @as(u32, @intCast(item_list.items.len));
             var k: u32 = 1;
             while (k <= n) : (k += 1) {
                 { // init indices

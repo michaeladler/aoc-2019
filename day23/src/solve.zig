@@ -80,11 +80,11 @@ pub const NIC = struct {
         try self.outgoing.ensureTotalCapacity(self.buf.items.len / 3);
 
         var i: usize = 0;
-        const src = @intCast(u16, self.address);
+        const src = @as(u16, @intCast(self.address));
         while (i < self.buf.items.len) : (i += 3) {
             const packet = Packet{
                 .src = src,
-                .dest = @intCast(u16, self.buf.items[i]),
+                .dest = @as(u16, @intCast(self.buf.items[i])),
                 .x = self.buf.items[i + 1],
                 .y = self.buf.items[i + 2],
             };

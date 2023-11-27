@@ -55,7 +55,7 @@ pub const Instruction = union(OpcodeTag) {
     /// Parse a single instruction
     pub fn fromValue(value: i64) Instruction {
         // the opcode is the rightmost two digits
-        const opcode = @intCast(u7, @mod(value, 100));
+        const opcode = @as(u7, @intCast(@mod(value, 100)));
 
         var rem = @divExact(value - opcode, 100);
 
@@ -76,7 +76,7 @@ pub const Instruction = union(OpcodeTag) {
         }
 
         const result = blk: {
-            switch (@intToEnum(OpcodeTag, opcode)) {
+            switch (@as(OpcodeTag, @enumFromInt(opcode))) {
                 .add => {
                     const val = Instruction{ .add = Args3{ .first = modes[0], .second = modes[1], .third = modes[2] } };
                     break :blk val;
@@ -122,7 +122,7 @@ pub const Instruction = union(OpcodeTag) {
     }
 
     inline fn parseMode(num: i64) ParamMode {
-        return @intToEnum(ParamMode, @intCast(u2, num));
+        return @as(ParamMode, @enumFromInt(@as(u2, @intCast(num))));
     }
 };
 
@@ -211,7 +211,7 @@ pub const IntcodeProgram = struct {
                         self.ip = ip; // restore old ip
                         return Status.blocked;
                     }
-                    const data = @intCast(I, input[input_idx]);
+                    const data = @as(I, @intCast(input[input_idx]));
                     input_idx += 1;
                     const out_pos = self.readOutPos(instruction.get);
                     log.debug("[Get] Storing {d} it in position out_pos={d}", .{ data, out_pos });
@@ -220,7 +220,7 @@ pub const IntcodeProgram = struct {
                 .put => {
                     const a = self.readParam(instruction.put);
                     log.debug("[Put] Appending {d} to output", .{a});
-                    try output.append(@intCast(O, a));
+                    try output.append(@as(O, @intCast(a)));
                 },
                 .je => {
                     const modes = instruction.je;
@@ -229,7 +229,7 @@ pub const IntcodeProgram = struct {
                     if (a != 0) {
                         // jump
                         log.debug("[JUMP-IF-TRUE] a={d}, b={d} => jumping", .{ a, b });
-                        self.ip = @intCast(usize, b);
+                        self.ip = @as(usize, @intCast(b));
                     } else {
                         log.debug("[JUMP-IF-TRUE] a={d}, b={d} => no jump", .{ a, b });
                     }
@@ -240,7 +240,7 @@ pub const IntcodeProgram = struct {
                     const b = self.readParam(modes.second);
                     if (a == 0) {
                         log.debug("[JUMP-IF-FALSE] a={d}, b={d} => jump", .{ a, b });
-                        self.ip = @intCast(usize, b);
+                        self.ip = @as(usize, @intCast(b));
                     } else {
                         log.debug("[JUMP-IF-FALSE] a={d}, b={d} => no jump", .{ a, b });
                     }
@@ -291,13 +291,13 @@ pub const IntcodeProgram = struct {
         self.ip += 1;
         switch (mode) {
             .position => {
-                return self.readValue(@intCast(u64, val));
+                return self.readValue(@as(u64, @intCast(val)));
             },
             .immediate => {
                 return val;
             },
             .relative => {
-                return self.readValue(@intCast(u64, self.base + val));
+                return self.readValue(@as(u64, @intCast(self.base + val)));
             },
         }
     }
@@ -307,10 +307,10 @@ pub const IntcodeProgram = struct {
         self.ip += 1;
         switch (mode) {
             ParamMode.relative => {
-                return @intCast(u64, self.base + val);
+                return @as(u64, @intCast(self.base + val));
             },
             else => {
-                return @intCast(u64, val);
+                return @as(u64, @intCast(val));
             },
         }
     }
@@ -318,7 +318,7 @@ pub const IntcodeProgram = struct {
     fn readValue(self: Self, addr: u64) i64 {
         const value = blk: {
             if (addr < self.code.len) {
-                const val = self.code[@intCast(usize, addr)];
+                const val = self.code[@as(usize, @intCast(addr))];
                 log.debug("reading addr {d} from code: {d}", .{ addr, val });
                 break :blk val;
             } else if (self.ram.get(addr)) |val| {
@@ -336,7 +336,7 @@ pub const IntcodeProgram = struct {
     fn writeValue(self: *Self, addr: u64, value: i64) !void {
         if (addr < self.code.len) {
             log.debug("writing {d} to code at addr {d}", .{ value, addr });
-            self.code[@intCast(usize, addr)] = value;
+            self.code[@as(usize, @intCast(addr))] = value;
         } else {
             log.debug("writing {d} to RAM at addr {d}", .{ value, addr });
             try self.ram.put(addr, value);

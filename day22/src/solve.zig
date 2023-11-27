@@ -68,7 +68,7 @@ test "2019 Day 22, Part 2 Small" {
         try deck.apply_instructions(instructions.items);
     }
     try testing.expectEqual(@as(usize, 9596), deck.get_card(2020).?);
-    try testing.expectEqual(@as(usize, 2020), deck.find_card(@intCast(usize, 9596)).?);
-    try testing.expectEqual(@as(usize, 2020), deck.find_card(@intCast(usize, answer)).?);
+    try testing.expectEqual(@as(usize, 2020), deck.find_card(@as(usize, @intCast(9596))).?);
+    try testing.expectEqual(@as(usize, 2020), deck.find_card(@as(usize, @intCast(answer))).?);
     try testing.expectEqual(@as(i64, 9596), answer);
 }

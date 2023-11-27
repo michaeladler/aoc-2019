@@ -101,7 +101,7 @@ pub fn mul_mod(a: i64, b: i64, n: i64) i64 {
 pub fn power_mod(a: i64, e: i64, n: i64) i64 {
     var x: i64 = 1;
     var y = a;
-    var ee: u64 = if (e >= 0) @intCast(u64, e) else @intCast(u64, -e);
+    var ee: u64 = if (e >= 0) @as(u64, @intCast(e)) else @as(u64, @intCast(-e));
 
     while (ee != 0) {
         if (ee & 1 != 0) x = mul_mod(x, y, n);

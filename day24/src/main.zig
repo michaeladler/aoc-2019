@@ -12,11 +12,11 @@ pub fn main() anyerror!void {
     var timer = try Timer.start();
 
     const answer1 = try solve.part1();
-    var millis = @intToFloat(f64, timer.lap()) / @intToFloat(f64, time.ns_per_ms);
+    var millis = @as(f64, @floatFromInt(timer.lap())) / @as(f64, @floatFromInt(time.ns_per_ms));
     try stdout.print("Part 1 (solved in {d}ms): {d}\n", .{ millis, answer1 });
 
     const answer2 = try solve.part2();
-    millis = @intToFloat(f64, timer.lap()) / @intToFloat(f64, time.ns_per_ms);
+    millis = @as(f64, @floatFromInt(timer.lap())) / @as(f64, @floatFromInt(time.ns_per_ms));
     try stdout.print("Part 2 (solved in {d}ms): {d}\n", .{ millis, answer2 });
 }
 

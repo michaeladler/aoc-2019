@@ -130,7 +130,7 @@ pub const Deck = struct {
     ///
     /// Complexity: O(N)
     pub fn cut_n(self: *Self, n: i64) void {
-        const pos_n = if (n >= 0) @intCast(usize, n) else @intCast(usize, self.cards.len - @intCast(usize, (-1) * n));
+        const pos_n = if (n >= 0) @as(usize, @intCast(n)) else @as(usize, @intCast(self.cards.len - @as(usize, @intCast((-1) * n))));
         log.debug("cut {d} -> cut {d}", .{ n, pos_n });
         debug.assert(pos_n < self.cards.len);
         // 0 1 2 3 4 5 6 7 8 9   Your deck
@@ -201,7 +201,7 @@ pub const Deck = struct {
             var target_idx: usize = 0;
             while (src_idx < count) : (src_idx += 1) {
                 new_nodes.items[target_idx] = current_nodes.items[src_idx];
-                target_idx = @intCast(usize, @mod(@intCast(i64, target_idx) + n, @intCast(i64, count)));
+                target_idx = @as(usize, @intCast(@mod(@as(i64, @intCast(target_idx)) + n, @as(i64, @intCast(count)))));
             }
         }
 

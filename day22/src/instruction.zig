@@ -119,7 +119,7 @@ test "manyToPolynomial" {
 
         var i: usize = 0;
         while (i < m) : (i += 1) {
-            try testing.expectEqual(deck.find_card(i).?, @intCast(usize, poly.eval(@intCast(i64, i), m)));
+            try testing.expectEqual(deck.find_card(i).?, @as(usize, @intCast(poly.eval(@as(i64, @intCast(i)), m))));
         }
     }
 }
@@ -149,7 +149,7 @@ test "manyToPolynomial 2" {
 
         var i: usize = 0;
         while (i < m) : (i += 1) {
-            try testing.expectEqual(deck.find_card(i).?, @intCast(usize, poly.eval(@intCast(i64, i), m)));
+            try testing.expectEqual(deck.find_card(i).?, @as(usize, @intCast(poly.eval(@as(i64, @intCast(i)), m))));
         }
     }
 }

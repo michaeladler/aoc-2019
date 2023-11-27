@@ -44,7 +44,7 @@ pub fn part1() !usize {
             }
         }
 
-        var gop = try seen.getOrPut(new);
+        const gop = try seen.getOrPut(new);
         if (gop.found_existing) {
             // watch for the first time a layout of bugs and empty spaces *matches any previous layout*
             return biodiversityRating(new);
@@ -85,7 +85,7 @@ inline fn countNeighborBugs(g: Grid, row: usize, col: usize) usize {
 inline fn biodiversityRating(g: Grid) u64 {
     var sum: u64 = 0;
     var i: u6 = 0;
-    while (i < @intCast(u6, grid.row_count * grid.col_count)) : (i += 1) {
+    while (i < @as(u6, @intCast(grid.row_count * grid.col_count))) : (i += 1) {
         if (g.bs.isSet(i)) {
             sum += @as(u64, 1) << i;
         }
@@ -135,8 +135,8 @@ pub fn part2() !usize {
         // TODO: only copy from min to max
         mem.copy(Grid, inactive_grids, active_grids);
 
-        var new_min_level = if (min_level > 0) min_level - 1 else 0;
-        var new_max_level = std.math.min(max_level + 1, active_grids.len - 1);
+        const new_min_level = if (min_level > 0) min_level - 1 else 0;
+        const new_max_level = @min(max_level + 1, active_grids.len - 1);
 
         var lvl: usize = new_min_level;
         while (lvl <= new_max_level) : (lvl += 1) {
@@ -149,7 +149,7 @@ pub fn part2() !usize {
                         continue;
                     }
                     const neighbor_bugs = try countNeighborBugsRec(active_grids, lvl, i, j);
-                    log.debug("layer {d}: ({d}, {d}) has {d} neighbors", .{ @intCast(i64, lvl) - @intCast(i64, base_level), i, j, neighbor_bugs });
+                    log.debug("layer {d}: ({d}, {d}) has {d} neighbors", .{ @as(i64, @intCast(lvl)) - @as(i64, @intCast(base_level)), i, j, neighbor_bugs });
 
                     if (active_grids[lvl].isBug(i, j)) {
                         // A bug *dies* (becoming an empty space) unless there is *exactly one* bug adjacent to it.
@@ -187,8 +187,8 @@ pub fn part2() !usize {
 }
 
 fn countNeighborBugsRec(grids: []const Grid, lvl: usize, row: usize, col: usize) !usize {
-    const irow = @intCast(i64, row);
-    const icol = @intCast(i64, col);
+    const irow = @as(i64, @intCast(row));
+    const icol = @as(i64, @intCast(col));
 
     const neighbors = [_][2]i64{
         [_]i64{ irow - 1, icol }, // north
@@ -265,7 +265,7 @@ fn countNeighborBugsRec(grids: []const Grid, lvl: usize, row: usize, col: usize)
             }
         } else {
             // neighbor is in our grid
-            if (myself.isBug(@intCast(usize, nb_row), @intCast(usize, nb_col))) {
+            if (myself.isBug(@as(usize, @intCast(nb_row)), @as(usize, @intCast(nb_col)))) {
                 sum += 1;
             }
         }
@@ -280,7 +280,7 @@ fn countBugsRec(grids: []const Grid, center: usize, min_level: usize, max_level:
     var i: usize = min_level;
     while (i <= max_level) : (i += 1) {
         const bugs = grids[i].countBugs();
-        const level: i64 = @intCast(i64, i) - @intCast(i64, center);
+        const level: i64 = @as(i64, @intCast(i)) - @as(i64, @intCast(center));
         log.debug("level {d} has bugs: {d}", .{ level, bugs });
         sum += bugs;
     }
